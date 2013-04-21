@@ -1,0 +1,78 @@
+libperipha is a collection of headers and definitions to access internal
+registers of various hardware components.
+
+License
+-------
+libperipha as a whole is licensed under BSD license. However, each
+individual file may have different, by compatible license (BSD-like,
+or public domain).
+
+Interface/API
+-------------
+There're few well-known ways to define hardware registers and access
+them:
+
+1. Define iomem addresses of registers, and provide functions/macros
+to access them. E.g.:
+
+#define REG_DATA 0x40
+#define READ_R8(addr) ...
+#define WRITE_R8(addr, val) ...
+uint8_t v = READ_R8(REG_DATA);
+WRITE_R8(REG_DATA, 'a');
+
+2. Define registers as "virtual variables", so they can be read/written
+directly. This is really a variation of the previous method, where
+register symbol is defined to a dereferenced pointer to an address:
+
+#define _REG_DATA 0x40
+#define R8(addr) (*(volatile uint8_t*)(addr))
+#define REG_DATA R8(_REG_DATA)
+uint8_t v = REG_DATA;
+REG_DATA = 'a';
+
+3. More complex hardware may have number of similar blocks, so instead
+of using just scalar address with method 1, separate block base address
+and in-block register offsets are defines, with corresponding accessors:
+
+#define BLOCK1 0x10
+#define BLOCK2 0x20
+#define REG_DATA 0x00
+#define REG_CTRL 0x02
+#define READ_R16(base, offset) ...
+#define WRITE_R16(base, offset, val) ...
+uint16_t v = READ_R16(BLOCK1, REG_DATA);
+WRITE_R16(BLOCK2, REG_DATA, 0xaa55);
+
+4. Generalization of method 2 to a repeating blocks is using structures
+to define block register layouts, then defining block symbols as structure
+pointers using block base addresses:
+
+struct BLOCK {
+    uint16_t REG_DATA;
+    uint16_t REG_CTRL;
+};
+#define _BLOCK1 0x10
+#define _BLOCK2 0x20
+#define BLOCK1 ((volatile struct BLOCK*)_BLOCK1)
+#define BLOCK2 (*(volatile struct BLOCK*)_BLOCK1)
+uint16_t v = BLOCK1->REG_DATA;
+BLOCK1->REG_DATA = 0xaa55;
+BLOCK2.REG_CTRL = CMD_RESET;
+
+
+It's hard to say that one method is "better" than other, each of them has
+its pros and cons. For example, for simple hardware, it makes no sense
+to mandate usage of extra parameters in accessor methods or define
+structures, methods 1 & 2 work pretty well. Methods 2 & 4 are more
+concise, but require registers to be memory-mapped (or special pointer
+types support from compiler).
+
+So, libperipha doesn't try to postulate any of these as primary, but
+embraces them all. It is however recommended to whenever possible support
+all of them. It's not that hard as it seems, methods 1 & 2 have basically
+the same underlying definitions (register addresses as scalar), and from
+4 to 3 it is possible to go with offsetof macro. All these cases can be
+covered by simple codegeneration script. Going from method 3 to 4 is more
+complicated, but a tool to layout structures based on register offsets
+and sizes is just a bit more complicated than trivial.
