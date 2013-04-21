@@ -44,6 +44,9 @@ struct SysTick_ {
 
 #define SysTick_CTRL_ENABLE     0x0001
 #define SysTick_CTRL_TICKINT    0x0002
+/* If set, SysTick clock == CPU clock, otherwise -
+   implementation-dependent clock */
+#define SysTick_CTRL_CLKSOURCE  0x0004
 #define SysTick_CTRL_COUNTFLAG  0x0100
 
 #define SysTick_Base 0xE000E010
