@@ -37,8 +37,14 @@
 
 // Pins per port: 8
 struct GPIO_ {
+    // LM4 has funky feature where low 8 bits of (dword) address are used
+    // as AND mask for read/written data. So, "data register" block
+    // occupies 0x100 dwords, and to changes all bits of port, value
+    // should be written at dword offset 0xff from the start.
+    // lm4f120h5qr.pdf 10.2.1.2 p. 608
+    __rw uint32_t DATA_START;
+    RESERVED(0, uint32_t, 0x000, 0x3fc);
     __rw uint32_t DATA;
-    RESERVED(0, uint32_t, 0x000, 0x400);
     __rw uint32_t DIR;
     __ro uint32_t IS;
     __rw uint32_t IBE;
