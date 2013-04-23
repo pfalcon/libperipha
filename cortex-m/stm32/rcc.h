@@ -33,7 +33,7 @@
  */
 #include <libperipha_types.h>
 
-struct RCC_ {
+typedef struct RCC_ {
     __rw uint32_t CR;
     __rw uint32_t CFGR;
     __ro uint32_t CIR;
@@ -44,7 +44,7 @@ struct RCC_ {
     __rw uint32_t APB1ENR;
     __rw uint32_t BDCR;
     __rw uint32_t CSR;
-};
+} RCC_TypeDef;
 
 #define RCC_APB2ENR_AFIOEN (1<<0)
 #define RCC_APB2ENR_IOPAEN (1<<2)
@@ -56,3 +56,5 @@ struct RCC_ {
 #define RCC_APB2ENR_IOPGEN (1<<8)
 
 #define RCC_BASE 0x40021000
+
+#define RCC ((RCC_TypeDef*)RCC_BASE)

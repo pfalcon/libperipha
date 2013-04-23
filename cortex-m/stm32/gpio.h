@@ -44,6 +44,8 @@ struct GPIO_ {
     __rw uint32_t LCKR;
 };
 
+typedef struct GPIO_ GPIO_TypeDef;
+
 #define GPIOA_BASE 0x40010800
 #define GPIOB_BASE 0x40010C00
 #define GPIOC_BASE 0x40011000
