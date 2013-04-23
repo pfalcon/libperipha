@@ -49,5 +49,5 @@ struct SysTick_ {
 #define SysTick_CTRL_CLKSOURCE  0x0004
 #define SysTick_CTRL_COUNTFLAG  0x0100
 
-#define SysTick_Base 0xE000E010
-#define SysTick ((struct SysTick_*)SysTick_Base)
+#define SysTick_BASE 0xE000E010
+#define SysTick ((struct SysTick_*)SysTick_BASE)
