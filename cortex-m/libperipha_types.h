@@ -34,3 +34,9 @@
 
 #define __rw volatile
 #define __ro volatile const
+
+/* Add a "reserved" field to structure with given relative number
+   and values size of type, filling gap between field with offset
+   before_off and field with offset after_off */
+#define RESERVED(no, type, before_off, after_off) \
+    type reserved##no ((after_off - before_off) / sizeof(type) - 1)
