@@ -1,5 +1,5 @@
-libperipha is a collection of headers and definitions to access internal
-registers of various hardware components.
+libperipha (lib peripheral access) is a collection of headers and
+definitions to access internal registers of various hardware components.
 
 License
 -------
