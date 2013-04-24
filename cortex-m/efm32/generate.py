@@ -35,6 +35,9 @@ import yaml
 import logging
 import textwrap
 
+
+USE_LIBOPENCM3 = 0
+
 def commentblock(*textblocks, **formatargs):
     ret = []
     nowrapcommands = set("@defgroup")
@@ -61,8 +64,8 @@ def yaml2h(filenamebase):
 
     data = yaml.load(open(yamlname))
     # some defaults
-    data.setdefault("projectname", "libopencm3")
-    data.setdefault("includeguard", "LIBOPENCM3_EFM32_TINYGECKO_%s_H"%data['shortname'])
+    data.setdefault("projectname", "libperipha")
+    data.setdefault("includeguard", "LIBPERIPHA_EFM32_TINYGECKO_%s_H"%data['shortname'])
 
     with open(headername, 'w') as outfile:
         def wc(*args, **kwargs): # wrap "outfile" and "data" (as default) arguments  -- i'm a lazy typer
@@ -89,8 +92,9 @@ def yaml2h(filenamebase):
         nl()
         outfile.write("#ifndef {includeguard}\n#define {includeguard}\n".format(**data))
         nl()
-        outfile.write("#include <libopencm3/cm3/common.h>\n#include <libopencm3/efm32/memorymap.h>\n")
-        nl()
+        if USE_LIBOPENCM3:
+            outfile.write("#include <libopencm3/cm3/common.h>\n#include <libopencm3/efm32/memorymap.h>\n")
+            nl()
         wc("Register definitions and register value definitions for the {shortname} subsystem", "@defgroup {shortdocname}_regsandvals {shortname} registers and values", "@{{")
         nl()
 
