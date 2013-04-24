@@ -3,8 +3,8 @@ registers of various hardware components.
 
 License
 -------
-libperipha as a whole is licensed under BSD license. However, each
-individual file may have different, by compatible license (BSD-like,
+libperipha as a whole is licensed under 3-clause BSD license. However,
+each individual file may have different, but compatible license (BSD-like,
 or public domain).
 
 Interface/API
