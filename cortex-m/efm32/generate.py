@@ -30,6 +30,7 @@
 #
 #!/usr/bin/env python
 
+import os
 import yaml
 import logging
 import textwrap
@@ -193,7 +194,8 @@ def yaml2h(filenamebase):
         wc_close() # close registers and values
         nl()
 
-        outfile.write(open(conveniencename).read())
+        if os.path.isfile(conveniencename):
+            outfile.write(open(conveniencename).read())
 
         nl()
         wc_close() # close convenience
