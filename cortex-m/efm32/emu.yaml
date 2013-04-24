@@ -1,5 +1,5 @@
 copyright: "2012 chrysn <chrysn@fsfe.org>"
-license: lgpl-3+
+license: bsd-3clause
 ingroup: EFM32TG
 shortdocname: EFM32TG_EMU
 shortname: EMU
