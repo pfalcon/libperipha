@@ -152,8 +152,9 @@ registers:
     - name: LFRCOCTRL
       offset: 0x010
       definition_baserefext: ".5.5"
-      length: 7
+      length: 32
       type: uint
+      #field: 0, 7
     - name: AUXHFRCOCTRL
       offset: 0x014
       definition_baserefext: ".5.6"
@@ -200,8 +201,9 @@ registers:
     - name: CALCNT
       offset: 0x01c
       definition_baserefext: ".5.8"
-      length: 19
+      length: 32
       type: uint
+      # field: 0, 20
     - name: OSCENCMD
       offset: 0x020
       definition_baserefext: ".5.9"
