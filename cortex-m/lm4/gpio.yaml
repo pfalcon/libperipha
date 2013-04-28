@@ -1,0 +1,11 @@
+copyright: "2013 Paul Sokolovsky"
+license: bsd-3clause
+ingroup: LM4
+shortdocname: LM4_GPIO
+shortname: GPIO
+longname: LM4 GPIO Component
+
+inherit:
+    - arm/primecell/pl061
+
+registers: []
