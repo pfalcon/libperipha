@@ -265,6 +265,12 @@ def yaml2h(filenamebase, as_struct=False):
         wc_close() # close registers and values
         nl()
 
+        for comp in data.get('blocks', []):
+            outfile.write("#define %s_BASE %#x\n" % (comp["name"], comp["base"]))
+
+        for comp in data.get('blocks', []):
+            outfile.write("#define %s ((%s_Type*)%s_BASE)\n" % (comp['name'], data['shortname'], comp['name']))
+
         if os.path.isfile(conveniencename):
             outfile.write(open(conveniencename).read())
 
