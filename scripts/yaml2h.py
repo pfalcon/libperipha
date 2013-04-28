@@ -38,6 +38,9 @@ import textwrap
 
 USE_LIBOPENCM3 = 0
 
+def length2type(bits):
+    return {8: "uint8_t", 16: "uint16_t", 32: "uint32_t"}[bits]
+
 def commentblock(*textblocks, **formatargs):
     ret = []
     nowrapcommands = set("@defgroup")
@@ -55,7 +58,7 @@ def commentblock(*textblocks, **formatargs):
         last_block_was_at = b.startswith('@')
     return "\n".join(ret) + "\n */\n"
 
-def yaml2h(filenamebase):
+def yaml2h(filenamebase, as_struct=False):
     headername = "%s.h"%filenamebase
     yamlname = "%s.yaml"%filenamebase
     conveniencename = "%s.convenienceheaders"%filenamebase
@@ -80,6 +83,14 @@ def yaml2h(filenamebase):
             outfile.write(key)
             outfile.write(" "*max(24-len(key), 1))
             outfile.write(str(value))
+            if comment is not None:
+                outfile.write(" /**< %s */"%comment)
+            nl()
+        def struct_field(access, length, key, comment=None):
+            outfile.write("__" + access + " ")
+            outfile.write(length2type(length) + " ")
+            outfile.write(key)
+            outfile.write(";")
             if comment is not None:
                 outfile.write(" /**< %s */"%comment)
             nl()
@@ -109,6 +120,10 @@ def yaml2h(filenamebase):
         wc("These definitions reflect {baseref}{registers_baserefext}", "@defgroup {shortdocname}_registers {shortname} registers", "@{{")
         nl()
 
+        if as_struct:
+            outfile.write("typedef struct " + data['shortname'] + " {");
+            nl()
+
         for regdata in regs:
             has_bits = "fields" in regdata
             has_values = "values" in regdata
@@ -122,7 +137,25 @@ def yaml2h(filenamebase):
                 secondcomponent_name = regdata['fields'] if has_bits else regdata['values']
                 regs_dict[secondcomponent_name]['is_template'].append(regdata['name'])
 
-            define("%s_%s"%(data['shortname'], regdata['name']), "MMIO32(%s_BASE + %#.003x)"%(data['shortname'], regdata['offset']), "@see %s_%s_%s"%(data['shortdocname'], secondcomponent_name, 'values' if 'values' in regdata else 'bits') if has_bits or has_values else None)
+            comment = None
+            if has_bits or has_values:
+                comment = "@see %s_%s_%s" % (data['shortdocname'], secondcomponent_name, 'values' if 'values' in regdata else 'bits')
+
+            if as_struct:
+                if 'length' not in regdata:
+                    print "Warning: register %s lacks 'length' property, assumed 32" % regdata['name']
+                if 'access' not in regdata:
+                    print "Warning: register %s lacks 'access' property, assumed 'rw'" % regdata['name']
+                struct_field(regdata.get('access', 'rw'), regdata.get('length', 32), regdata['name'], comment)
+            else:
+                define("%s_%s" % (data['shortname'], regdata['name']),
+                       "MMIO32(%s_BASE + %#.003x)" % (data['shortname'], regdata['offset']),
+                       comment)
+
+        if as_struct:
+            outfile.write("} " + data['shortname'] + "_Type;");
+            nl()
+
         nl()
         wc_close() # close register definitions
         nl()
@@ -207,6 +240,7 @@ def yaml2h(filenamebase):
         outfile.write("#endif\n")
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
     licensedata = yaml.load(open("generate-license.yaml"))
     for basename in yaml.load(open('generate.yaml')):
-        yaml2h(basename)
+        yaml2h(basename, True)
