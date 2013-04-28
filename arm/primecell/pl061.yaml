@@ -1,0 +1,45 @@
+# http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0190b/I18381.html
+copyright: "2013 Paul Sokolovsky"
+license: bsd-3clause
+ingroup: PrimeCell
+shortdocname: PCell_PL061
+shortname: PL061
+longname: PrimeCell PL061 GPIO Component
+
+inherit:
+    - arm/primecell/primecell_id
+
+registers:
+    - name: DATA_START
+      offset: 0
+      access: rw
+    - name: DATA
+      offset: 0x3fc
+      access: rw
+    - name: DIR
+      offset: 0x400
+      access: rw
+    - name: IS
+      offset: 0x404
+      access: ro
+    - name: IBE
+      offset: 0x408
+      access: rw
+    - name: IEV
+      offset: 0x40c
+      access: rw
+    - name: IM
+      offset: 0x410
+      access: rw
+    - name: RIS
+      offset: 0x414
+      access: ro
+    - name: MIS
+      offset: 0x418
+      access: ro
+    - name: ICR
+      offset: 0x41c
+      access: rw
+    - name: AFSEL
+      offset: 0x420
+      access: rw

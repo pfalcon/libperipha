@@ -1,0 +1,41 @@
+# http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0190b/I18381.html , etc.
+copyright: "2013 Paul Sokolovsky"
+license: bsd-3clause
+ingroup: PrimeCell
+shortdocname: PCell_ID
+shortname: PrimeCell ID
+longname: PrimeCell Component Identification
+
+registers:
+    - name: PeriphID0
+      offset: 0xfe0
+      length: 32
+      access: ro
+    - name: PeriphID1
+      offset: 0xfe4
+      length: 32
+      access: ro
+    - name: PeriphID2
+      offset: 0xfe8
+      length: 32
+      access: ro
+    - name: PeriphID3
+      offset: 0xfec
+      length: 32
+      access: ro
+    - name: PCellID0
+      offset: 0xff0
+      length: 32
+      access: ro
+    - name: PCellID1
+      offset: 0xff4
+      length: 32
+      access: ro
+    - name: PCellID2
+      offset: 0xff8
+      length: 32
+      access: ro
+    - name: PCellID3
+      offset: 0xffc
+      length: 32
+      access: ro
