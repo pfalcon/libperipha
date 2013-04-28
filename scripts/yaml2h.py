@@ -61,6 +61,15 @@ def commentblock(*textblocks, **formatargs):
         last_block_was_at = b.startswith('@')
     return "\n".join(ret) + "\n */\n"
 
+
+def load_inherit(fname):
+    data = yaml.load(open(os.path.join(base_dir, fname + ".yaml")))
+    regs = data['registers']
+    for i in data.get('inherit', []):
+        regs += load_inherit(i)
+    return regs
+
+
 reserved_cnt = 0
 def yaml2h(filenamebase, as_struct=False):
     global reserved_cnt
@@ -71,6 +80,8 @@ def yaml2h(filenamebase, as_struct=False):
     logging.info("Generating %s from %s", headername, yamlname)
 
     data = yaml.load(open(yamlname))
+    for i in data.get('inherit', []):
+        data['registers'] += load_inherit(i)
     # some defaults
     data.setdefault("projectname", "libperipha")
     data.setdefault("includeguard", "LIBPERIPHA_EFM32_TINYGECKO_%s_H"%data['shortname'])
@@ -264,8 +275,8 @@ def yaml2h(filenamebase, as_struct=False):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
-    base = sys.argv[1]
-    licensedata = yaml.load(open(os.path.join(base, "generate-license.yaml")))
+    base_dir = sys.argv[1]
+    licensedata = yaml.load(open(os.path.join(base_dir, "generate-license.yaml")))
     for fname in glob.glob("*.yaml"):
         basename = os.path.splitext(fname)[0]
         yaml2h(basename, True)
