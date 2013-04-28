@@ -9,3 +9,19 @@ inherit:
     - arm/primecell/pl061
 
 registers: []
+
+blocks:
+    # This uses legacy APB apperture, there's more
+    # perfomant one at AHB with other base addresses
+    - name: GPIOA
+      base: 0x40004000
+    - name: GPIOB
+      base: 0x40005000
+    - name: GPIOC
+      base: 0x40006000
+    - name: GPIOD
+      base: 0x40007000
+    - name: GPIOE
+      base: 0x40024000
+    - name: GPIOF
+      base: 0x40025000
