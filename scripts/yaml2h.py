@@ -74,6 +74,9 @@ def yaml2h(filenamebase, as_struct=False):
     # some defaults
     data.setdefault("projectname", "libperipha")
     data.setdefault("includeguard", "LIBPERIPHA_EFM32_TINYGECKO_%s_H"%data['shortname'])
+    data.setdefault("baseref", "?baseref?")
+    data.setdefault("registers_baserefext", "?registers_baserefext?")
+    data.setdefault("ingroup", "?ingroup?")
 
     with open(headername, 'w') as outfile:
         def wc(*args, **kwargs): # wrap "outfile" and "data" (as default) arguments  -- i'm a lazy typer
