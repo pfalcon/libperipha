@@ -2,6 +2,7 @@
 # YAML to C headers generator
 #
 # Copyright (c) 2012 chrysn <chrysn@fsfe.org>
+# Copyright (c) 2013 Paul Sokolovsky <pfalcon@users.sourceforge.net>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -58,7 +59,9 @@ def commentblock(*textblocks, **formatargs):
         last_block_was_at = b.startswith('@')
     return "\n".join(ret) + "\n */\n"
 
+reserved_cnt = 0
 def yaml2h(filenamebase, as_struct=False):
+    global reserved_cnt
     headername = "%s.h"%filenamebase
     yamlname = "%s.yaml"%filenamebase
     conveniencename = "%s.convenienceheaders"%filenamebase
@@ -94,6 +97,12 @@ def yaml2h(filenamebase, as_struct=False):
             if comment is not None:
                 outfile.write(" /**< %s */"%comment)
             nl()
+        def struct_reserved(byte_size, type_len=32):
+            global reserved_cnt
+            assert byte_size % ((type_len / 8)) == 0
+            outfile.write("%s RESERVED%d[%d];" % (length2type(type_len), reserved_cnt, byte_size / (type_len / 8)))
+            nl()
+            reserved_cnt += 1
 
         outfile.write(licensedata[data['license']].format(**data))
         nl()
@@ -124,6 +133,9 @@ def yaml2h(filenamebase, as_struct=False):
             outfile.write("typedef struct " + data['shortname'] + " {");
             nl()
 
+        reserved_cnt = 0
+        offset = 0
+
         for regdata in regs:
             has_bits = "fields" in regdata
             has_values = "values" in regdata
@@ -131,6 +143,12 @@ def yaml2h(filenamebase, as_struct=False):
             if is_template:
                 # this isn't a real register, just a template
                 continue
+
+            assert regdata["offset"] >= offset, regdata
+            if as_struct and regdata["offset"] > offset:
+                struct_reserved(regdata["offset"] - offset)
+            offset = regdata["offset"] + regdata.get('length', 32) / 8
+
             secondcomponent_name = regdata['name']
             if (has_bits and isinstance(regdata['fields'], str)) or (has_values and isinstance(regdata['values'], str)):
                 # uses a template
