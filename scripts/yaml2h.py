@@ -31,10 +31,12 @@
 #
 #!/usr/bin/env python
 
+import sys
 import os
 import yaml
 import logging
 import textwrap
+import glob
 
 
 USE_LIBOPENCM3 = 0
@@ -259,6 +261,8 @@ def yaml2h(filenamebase, as_struct=False):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
-    licensedata = yaml.load(open("generate-license.yaml"))
-    for basename in yaml.load(open('generate.yaml')):
+    base = sys.argv[1]
+    licensedata = yaml.load(open(os.path.join(base, "generate-license.yaml")))
+    for fname in glob.glob("*.yaml"):
+        basename = os.path.splitext(fname)[0]
         yaml2h(basename, True)
