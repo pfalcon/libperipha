@@ -8,7 +8,11 @@ longname: LM4 GPIO Component
 inherit:
     - arm/primecell/pl061
 
-registers: []
+registers:
+    - name: DEN
+      offset: 0x51c
+      length: 32
+      access: rw
 
 blocks:
     # This uses legacy APB apperture, there's more
