@@ -32,75 +32,48 @@
 #include <libperipha_types.h>
 
 /** @file
- * @see LM4_GPIO
+ * @see LM4_SCR
  */
 
-/** Definitions for the GPIO subsystem (LM4 GPIO Component).
+/** Definitions for the SCR subsystem (LM4 System Control Registers Component).
  *
- * This corresponds to the description in ?baseref?.
+ * This corresponds to the description in lm4f120h5qr.pdf section 5.
  *
  * @ingroup LM4
- * @defgroup LM4_GPIO GPIO (LM4 GPIO Component)
+ * @defgroup LM4_SCR SCR (LM4 System Control Registers Component)
  * @{
  */
 
-#ifndef LIBPERIPHA_EFM32_TINYGECKO_GPIO_H
-#define LIBPERIPHA_EFM32_TINYGECKO_GPIO_H
+#ifndef LIBPERIPHA_EFM32_TINYGECKO_SCR_H
+#define LIBPERIPHA_EFM32_TINYGECKO_SCR_H
 
-/** Register definitions and register value definitions for the GPIO subsystem
+/** Register definitions and register value definitions for the SCR subsystem
  *
- * @defgroup LM4_GPIO_regsandvals GPIO registers and values
+ * @defgroup LM4_SCR_regsandvals SCR registers and values
  * @{
  */
 
-/** These definitions reflect ?baseref??registers_baserefext?
+/** These definitions reflect lm4f120h5qr.pdf section 5.5
  *
- * @defgroup LM4_GPIO_registers GPIO registers
+ * @defgroup LM4_SCR_registers SCR registers
  * @{
  */
 
-typedef struct GPIO {
-__rw uint32_t DATA_START;
-uint32_t RESERVED0[254];
-__rw uint32_t DATA;
-__rw uint32_t DIR;
-__ro uint32_t IS;
-__rw uint32_t IBE;
-__rw uint32_t IEV;
-__rw uint32_t IM;
-__ro uint32_t RIS;
-__ro uint32_t MIS;
-__rw uint32_t ICR;
-__rw uint32_t AFSEL;
-uint32_t RESERVED1[62];
-__rw uint32_t DEN;
-uint32_t RESERVED2[688];
-__ro uint32_t PeriphID0;
-__ro uint32_t PeriphID1;
-__ro uint32_t PeriphID2;
-__ro uint32_t PeriphID3;
-__ro uint32_t PCellID0;
-__ro uint32_t PCellID1;
-__ro uint32_t PCellID2;
-__ro uint32_t PCellID3;
-} GPIO_Type;
+typedef struct SCR {
+uint32_t RESERVED0[386];
+__rw uint32_t RCGCGPIO;
+uint32_t RESERVED1[255];
+__rw uint32_t PRGPIO;
+} SCR_Type;
 
 /** @} */
 
 /** @} */
 
-#define GPIOA_BASE 0x40004000
-#define GPIOB_BASE 0x40005000
-#define GPIOC_BASE 0x40006000
-#define GPIOD_BASE 0x40007000
-#define GPIOE_BASE 0x40024000
-#define GPIOF_BASE 0x40025000
-#define GPIOA ((GPIO_Type*)GPIOA_BASE)
-#define GPIOB ((GPIO_Type*)GPIOB_BASE)
-#define GPIOC ((GPIO_Type*)GPIOC_BASE)
-#define GPIOD ((GPIO_Type*)GPIOD_BASE)
-#define GPIOE ((GPIO_Type*)GPIOE_BASE)
-#define GPIOF ((GPIO_Type*)GPIOF_BASE)
+#define SCR_BASE 0x400fe000
+#define SYSCTL_BASE 0x400fe000
+#define SCR ((SCR_Type*)SCR_BASE)
+#define SYSCTL ((SCR_Type*)SYSCTL_BASE)
 
 /** @} */
 
