@@ -1,0 +1,48 @@
+copyright: "2013 Paul Sokolovsky"
+license: bsd-3clause
+ingroup: PrimeCell
+shortdocname: PCell_PL011
+shortname: PL011
+longname: PrimeCell PL011 UART Component
+baseref: DDI0183.pdf PrimeCell UART (PL011) TRM
+
+inherit:
+    - arm/primecell/primecell_id
+
+register defaults:
+    length: 32
+    access: rw
+
+registers:
+    - name: DR
+      offset: 0
+    - name: RSR
+      offset: 0x4
+    - name: FR
+      offset: 0x18
+      access: ro
+    - name: ILPR
+      offset: 0x20
+    - name: IBRD
+      offset: 0x24
+    - name: FBRD
+      offset: 0x28
+    - name: LCR_H
+      offset: 0x2c
+    - name: CR
+      offset: 0x30
+    - name: IFLS
+      offset: 0x34
+    - name: IMSC
+      offset: 0x38
+    - name: RIS
+      offset: 0x3c
+      access: ro
+    - name: MIS
+      offset: 0x40
+      access: ro
+    - name: ICR
+      offset: 0x44
+      access: wo
+    - name: DMACR
+      offset: 0x48
