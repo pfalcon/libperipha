@@ -62,8 +62,12 @@
 typedef struct SCR {
 uint32_t RESERVED0[386];
 __rw uint32_t RCGCGPIO;
-uint32_t RESERVED1[255];
+uint32_t RESERVED1[3];
+__rw uint32_t RCGCUART;
+uint32_t RESERVED2[251];
 __rw uint32_t PRGPIO;
+uint32_t RESERVED3[3];
+__rw uint32_t PRUART;
 } SCR_Type;
 
 /** @} */

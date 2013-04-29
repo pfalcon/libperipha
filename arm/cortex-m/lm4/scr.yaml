@@ -13,11 +13,21 @@ registers:
       length: 32
       access: rw
       definition_baserefext: ".5 Register 51"
+    - name: RCGCUART
+      offset: 0x618
+      length: 32
+      access: rw
+      definition_baserefext: ".5 Register 54"
     - name: PRGPIO
       offset: 0xA08
       length: 32
       access: rw
       definition_baserefext: ".5 Register 93"
+    - name: PRUART
+      offset: 0xA18
+      length: 32
+      access: rw
+      definition_baserefext: ".5 Register 96"
 
 blocks:
     - name: SCR
