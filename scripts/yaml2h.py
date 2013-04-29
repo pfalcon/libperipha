@@ -61,9 +61,16 @@ def commentblock(*textblocks, **formatargs):
         last_block_was_at = b.startswith('@')
     return "\n".join(ret) + "\n */\n"
 
+def add_defaults(data):
+    reg_defaults = data.get('register defaults', {})
+    for regdata in data['registers']:
+        for k, v in reg_defaults.iteritems():
+                if k not in regdata:
+                    regdata[k] = v
 
 def load_inherit(fname):
     data = yaml.load(open(os.path.join(base_dir, fname + ".yaml")))
+    add_defaults(data)
     regs = data['registers']
     for i in data.get('inherit', []):
         regs += load_inherit(i)
@@ -80,6 +87,7 @@ def yaml2h(filenamebase, as_struct=False):
     logging.info("Generating %s from %s", headername, yamlname)
 
     data = yaml.load(open(yamlname))
+    add_defaults(data)
     for i in data.get('inherit', []):
         data['registers'] += load_inherit(i)
     # some defaults
@@ -140,7 +148,6 @@ def yaml2h(filenamebase, as_struct=False):
         nl()
 
         regs = data['registers']
-        reg_defaults = data.get('register defaults', {})
 
         for template in data.get('templateregs', []):
             template['is_template'] = []
@@ -167,10 +174,6 @@ def yaml2h(filenamebase, as_struct=False):
             if is_template:
                 # this isn't a real register, just a template
                 continue
-
-            for k, v in reg_defaults.iteritems():
-                if k not in regdata:
-                    regdata[k] = v
 
             assert regdata["offset"] >= offset, regdata
             if as_struct and regdata["offset"] > offset:
