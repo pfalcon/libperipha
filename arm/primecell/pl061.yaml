@@ -10,28 +10,26 @@ baseref: DDI0190.pdf PrimeCell GPIO (PL061) TRM
 inherit:
     - arm/primecell/primecell_id
 
+register defaults:
+    length: 32
+    access: rw
+
 registers:
     - name: DATA_START
       offset: 0
-      access: rw
     - name: DATA
       offset: 0x3fc
-      access: rw
     - name: DIR
       offset: 0x400
-      access: rw
     - name: IS
       offset: 0x404
       access: ro
     - name: IBE
       offset: 0x408
-      access: rw
     - name: IEV
       offset: 0x40c
-      access: rw
     - name: IM
       offset: 0x410
-      access: rw
     - name: RIS
       offset: 0x414
       access: ro
@@ -40,7 +38,5 @@ registers:
       access: ro
     - name: ICR
       offset: 0x41c
-      access: rw
     - name: AFSEL
       offset: 0x420
-      access: rw
