@@ -140,6 +140,7 @@ def yaml2h(filenamebase, as_struct=False):
         nl()
 
         regs = data['registers']
+        reg_defaults = data.get('register defaults', {})
 
         for template in data.get('templateregs', []):
             template['is_template'] = []
@@ -166,6 +167,10 @@ def yaml2h(filenamebase, as_struct=False):
             if is_template:
                 # this isn't a real register, just a template
                 continue
+
+            for k, v in reg_defaults.iteritems():
+                if k not in regdata:
+                    regdata[k] = v
 
             assert regdata["offset"] >= offset, regdata
             if as_struct and regdata["offset"] > offset:
