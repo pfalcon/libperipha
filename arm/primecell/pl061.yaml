@@ -5,6 +5,7 @@ ingroup: PrimeCell
 shortdocname: PCell_PL061
 shortname: PL061
 longname: PrimeCell PL061 GPIO Component
+baseref: DDI0190.pdf PrimeCell GPIO (PL061) TRM
 
 inherit:
     - arm/primecell/primecell_id
