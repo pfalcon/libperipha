@@ -121,6 +121,11 @@ def yaml2h(filenamebase, as_struct=False):
             reserved_cnt += 1
 
         outfile.write(licensedata[data['license']].format(**data))
+
+        if as_struct:
+            outfile.write("#include <libperipha_types.h>")
+            nl()
+
         nl()
         wc("@file", "@see {shortdocname}")
         nl()
