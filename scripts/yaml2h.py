@@ -157,6 +157,8 @@ def yaml2h(filenamebase, as_struct=False):
         reserved_cnt = 0
         offset = 0
 
+        regs.sort(lambda a, b: cmp(a["offset"], b["offset"]))
+
         for regdata in regs:
             has_bits = "fields" in regdata
             has_values = "values" in regdata
