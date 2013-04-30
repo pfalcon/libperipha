@@ -59,7 +59,7 @@
  * @{
  */
 
-typedef struct SCR {
+typedef struct SCR__ {
 uint32_t RESERVED0[386];
 __rw uint32_t RCGCGPIO;
 uint32_t RESERVED1[3];

@@ -59,7 +59,7 @@
  * @{
  */
 
-typedef struct GPIO {
+typedef struct GPIO__ {
 __rw uint32_t DATA_START;
 uint32_t RESERVED0[254];
 __rw uint32_t DATA;
@@ -74,7 +74,9 @@ __rw uint32_t ICR;
 __rw uint32_t AFSEL;
 uint32_t RESERVED1[62];
 __rw uint32_t DEN;
-uint32_t RESERVED2[688];
+uint32_t RESERVED2[3];
+__rw uint32_t PCTL;
+uint32_t RESERVED3[684];
 __ro uint32_t PeriphID0;
 __ro uint32_t PeriphID1;
 __ro uint32_t PeriphID2;

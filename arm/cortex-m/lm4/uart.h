@@ -59,17 +59,17 @@
  * @{
  */
 
-typedef struct UART {
+typedef struct UART__ {
 __rw uint32_t DR;
 __rw uint32_t RSR;
 uint32_t RESERVED0[4];
-__ro uint32_t FR;
+__ro uint32_t FR; /**< @see LM4_UART_FR_bits */
 uint32_t RESERVED1[1];
 __rw uint32_t ILPR;
 __rw uint32_t IBRD;
 __rw uint32_t FBRD;
-__rw uint32_t LCR_H;
-__rw uint32_t CR;
+__rw uint32_t LCRH; /**< @see LM4_UART_LCRH_bits */
+__rw uint32_t CR; /**< @see LM4_UART_CR_bits */
 __rw uint32_t IFLS;
 __rw uint32_t IMSC;
 __ro uint32_t RIS;
@@ -77,7 +77,7 @@ __ro uint32_t MIS;
 __wo uint32_t ICR;
 __rw uint32_t DMACR;
 uint32_t RESERVED2[991];
-__rw uint32_t CC;
+__rw uint32_t CC; /**< @see LM4_UART_CC_bits */
 uint32_t RESERVED3[5];
 __ro uint32_t PeriphID0;
 __ro uint32_t PeriphID1;
@@ -88,6 +88,67 @@ __ro uint32_t PCellID1;
 __ro uint32_t PCellID2;
 __ro uint32_t PCellID3;
 } UART_Type;
+
+/** @} */
+
+/** Bit states for the UART_FR register
+ *
+ * See ?baseref??definition_baserefext? for definitions.
+ *
+ * @defgroup LM4_UART_FR_bits UART FR bits
+ * @{
+ */
+
+#define UART_FR_TXFE            (1<<7)
+#define UART_FR_RXFF            (1<<6)
+#define UART_FR_TXFF            (1<<5)
+#define UART_FR_RXFE            (1<<4)
+#define UART_FR_BUSY            (1<<3)
+#define UART_FR_CTS             (1<<0)
+
+/** @} */
+
+/** Bit states for the UART_LCRH register
+ *
+ * See ?baseref??definition_baserefext? for definitions.
+ *
+ * @defgroup LM4_UART_LCRH_bits UART LCRH bits
+ * @{
+ */
+
+#define UART_LCRH_WLEN_5        (0<<5)
+#define UART_LCRH_WLEN_6        (1<<5)
+#define UART_LCRH_WLEN_7        (2<<5)
+#define UART_LCRH_WLEN_8        (3<<5)
+#define UART_LCRH_WLEN_MASK     (0x3<<5)
+
+/** @} */
+
+/** Bit states for the UART_CR register
+ *
+ * See ?baseref??definition_baserefext? for definitions.
+ *
+ * @defgroup LM4_UART_CR_bits UART CR bits
+ * @{
+ */
+
+#define UART_CR_RXE             (1<<9)
+#define UART_CR_TXE             (1<<8)
+#define UART_CR_UARTEN          (1<<0)
+
+/** @} */
+
+/** Bit states for the UART_CC register
+ *
+ * See ?baseref??definition_baserefext? for definitions.
+ *
+ * @defgroup LM4_UART_CC_bits UART CC bits
+ * @{
+ */
+
+#define UART_CC_CS_SYSCLK       (0<<0)
+#define UART_CC_CS_PIOSC        (5<<0)
+#define UART_CC_CS_MASK         (0xf<<0)
 
 /** @} */
 
