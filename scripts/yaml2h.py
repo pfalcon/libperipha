@@ -216,6 +216,8 @@ def yaml2h(filenamebase, as_struct=False):
             if not has_bits and not has_values:
                 continue
 
+            data.setdefault("definition_baserefext", "?definition_baserefext?")
+
             if (has_bits and isinstance(regdata['fields'], str)) or (has_values and isinstance(regdata['values'], str)):
                 # uses a template, doesn't need own section
                 continue
