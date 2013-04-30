@@ -34,6 +34,7 @@
 
 #define __rw volatile
 #define __ro volatile const
+#define __wo volatile
 
 /* Add a "reserved" field to structure with given relative number
    and values size of type, filling gap between field with offset
