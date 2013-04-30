@@ -15,6 +15,13 @@ register defaults:
 registers:
     - name: CC
       offset: 0xfc8
+      fields:
+          - name: CS
+            shift: 0
+            length: 4
+            values:
+                - {name: SYSCLK, value: 0}
+                - {name: PIOSC,  value: 5}
 
 blocks:
     - name: UART0
