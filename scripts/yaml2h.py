@@ -159,7 +159,7 @@ def yaml2h(filenamebase, as_struct=False):
         nl()
 
         if as_struct:
-            outfile.write("typedef struct " + data['shortname'] + " {");
+            outfile.write("typedef struct " + data['shortname'] + "__ {");
             nl()
 
         reserved_cnt = 0
