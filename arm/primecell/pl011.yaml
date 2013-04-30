@@ -40,10 +40,26 @@ registers:
       offset: 0x24
     - name: FBRD
       offset: 0x28
-    - name: LCR_H
+    - name: LCRH # aka LCR_H
       offset: 0x2c
+      fields:
+          - name: WLEN
+            shift: 5
+            length: 2
+            values:
+                - {name: 5, value: 0}
+                - {name: 6, value: 1}
+                - {name: 7, value: 2}
+                - {name: 8, value: 3}
     - name: CR
       offset: 0x30
+      fields:
+          - name: RXE
+            shift: 9
+          - name: TXE
+            shift: 8
+          - name: UARTEN
+            shift: 0
     - name: IFLS
       offset: 0x34
     - name: IMSC
