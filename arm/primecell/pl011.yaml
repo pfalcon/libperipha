@@ -21,6 +21,19 @@ registers:
     - name: FR
       offset: 0x18
       access: ro
+      fields:
+          - name: TXFE
+            shift: 7
+          - name: RXFF
+            shift: 6
+          - name: TXFF
+            shift: 5
+          - name: RXFE
+            shift: 4
+          - name: BUSY
+            shift: 3
+          - name: CTS
+            shift: 0
     - name: ILPR
       offset: 0x20
     - name: IBRD
