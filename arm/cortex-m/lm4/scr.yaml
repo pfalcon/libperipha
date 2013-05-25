@@ -30,8 +30,8 @@ registers:
       definition_baserefext: ".5 Register 96"
 
 blocks:
-    - name: SCR
-      base: 0x400FE000
-    # Vendor quirk
+    # SCR clashes with standard Cortex-M register, hence SYSCTL
+    #- name: SCR
+    #  base: 0x400FE000
     - name: SYSCTL
       base: 0x400FE000

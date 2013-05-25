@@ -74,9 +74,7 @@ __rw uint32_t PRUART;
 
 /** @} */
 
-#define SCR_BASE 0x400fe000
 #define SYSCTL_BASE 0x400fe000
-#define SCR ((SCR_Type*)SCR_BASE)
 #define SYSCTL ((SCR_Type*)SYSCTL_BASE)
 
 /** @} */
