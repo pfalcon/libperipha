@@ -21,8 +21,20 @@ community protecting license, like GPL. However, to minimize confusion
 and to keep automatic licensing scanners happy, libperipha adopts to use
 same 3-clause BSD license for support scripts.
 
-3. arm/cortex-m/arm-cmsis/ subir: CMSIS library, copyrighted by ARM Ltd.
+3. arm/cortex-m/arm-cmsis/ subdir: CMSIS library, copyrighted by ARM Ltd.
 and released under 3-clause BSD license.
+
+
+Downloading
+-----------
+libperipha is distributed via git repository. To checkout:
+
+    git clone --recursive https://github.com/pfalcon/libperipha.git
+
+If you cloned without --recursive, run:
+
+    git submodule update --init --recursive
+
 
 Interface/API
 -------------
