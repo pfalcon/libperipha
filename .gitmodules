@@ -1,0 +1,3 @@
+[submodule "arm/cortex-m/arm-cmsis"]
+	path = arm/cortex-m/arm-cmsis
+	url = https://github.com/pfalcon/ARM-CMSIS-BSD
