@@ -3,9 +3,26 @@ definitions to access internal registers of various hardware components.
 
 License
 -------
-libperipha as a whole is licensed under 3-clause BSD license. However,
-each individual file may have different, but compatible license (BSD-like,
-or public domain).
+libperipha consists of number of components, developed by project
+contrinutors, collected from existing projects, or imported from
+vendor releases. All components of libperipha are released under
+well-known liberal Open Source licenses (such as BSD or MIT), or
+are in public domain. Please consult each individual file for
+licensing/copyrigh terms applying to it. Following provides
+(possibly incomplete) information for major libperihpa components:
+
+1. Default libperipha license unless otherwise specified: 3-clause BSD.
+If you contibute materials of which you are copyright holder, please
+consider using this license to minimize complexity and confusion.
+
+2. scripts/ subdirectory: It's common practice is Open Source community
+to release development and support tools on stricter freedom and
+community protecting license, like GPL. However, to minimize confusion
+and to keep automatic licensing scanners happy, libperipha adopts to use
+same 3-clause BSD license for support scripts.
+
+3. arm/cortex-m/arm-cmsis/ subir: CMSIS library, copyrighted by ARM Ltd.
+and released under 3-clause BSD license.
 
 Interface/API
 -------------
