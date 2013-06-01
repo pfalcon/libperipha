@@ -1,0 +1,74 @@
+copyright: "2013 Paul Sokolovsky"
+license: bsd-3clause
+ingroup: nRF51
+shortdocname: NRF51_UART
+shortname: UART
+longname: nRF51 UART Component
+baseref: nRF51_Reference_manual v1.1.pdf section 27
+registers_baserefext: ".2"
+
+register defaults:
+    length: 32
+    access: rw
+
+registers:
+    # Task registers
+    - name: STARTRX
+      offset: 0x000
+    - name: STOPRX
+      offset: 0x004
+    - name: STARTTX
+      offset: 0x008
+    - name: STOPTX
+      offset: 0x00c
+    # Event registers
+    - name: RXDRDY
+      offset: 0x108
+    - name: TXDRDY
+      offset: 0x11c
+    - name: ERROR
+      offset: 0x124
+    # Control registers
+    - name: INTENSET
+      offset: 0x304
+    - name: INTENCLR
+      offset: 0x308
+    - name: ERRORSRC
+      offset: 0x480
+    - name: ENABLE
+      offset: 0x500
+    - name: RSELRTS
+      offset: 0x508
+    - name: RSELTXD
+      offset: 0x50c
+    - name: RSELCTS
+      offset: 0x510
+    - name: RSELRXD
+      offset: 0x514
+    - name: RXD
+      offset: 0x518
+    - name: TXD
+      offset: 0x51c
+    - name: BAUDRATE
+      offset: 0x524
+    - name: CONFIG
+      offset: 0x56c
+      fields:
+          - name: HWFC
+            shift: 0
+          - name: PARITY
+            shift: 1
+          - name: RXPARITY
+            shift: 2
+            values:
+                - {name: MANUAL, value: 0}
+                - {name: AUTO, value: 1}
+          - name: TXPARITY
+            shift: 3
+            values:
+                - {name: MANUAL, value: 0}
+                - {name: AUTO, value: 1}
+
+blocks:
+    - name: UART0
+      base: 0x40002000
