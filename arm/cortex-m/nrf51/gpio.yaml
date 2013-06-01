@@ -1,0 +1,65 @@
+copyright: "2013 Paul Sokolovsky"
+license: bsd-3clause
+ingroup: nRF51
+shortdocname: NRF51_GPIO
+shortname: GPIO
+longname: nRF51 GPIO Component
+baseref: nRF51_Reference_manual v1.1.pdf section 13
+registers_baserefext: ".2"
+
+register defaults:
+    length: 32
+    access: rw
+
+registers:
+    - name: OUT
+      offset: 0x504
+    - name: OUTSET
+      offset: 0x508
+    - name: OUTCLR
+      offset: 0x50c
+    - name: IN
+      offset: 0x510
+    - name: DIR
+      offset: 0x514
+    - name: DIRSET
+      offset: 0x518
+    - name: DIRCLR
+      offset: 0x51c
+    - name: PIN_CNF
+      offset: 0x700
+      fields:
+          - name: DIR
+            shift: 0
+          - name: INPUT
+            shift: 1
+          - name: PULL
+            shift: 2
+            length: 2
+            values:
+                - {name: DISABLED, value: 0}
+                - {name: PULLDOWN, value: 1}
+                - {name: PULLUP, value: 2}
+          - name: DRIVE
+            shift: 8
+            length: 3
+            values:
+                - {name: S0S1, value: 0}
+                - {name: H0S1, value: 1}
+                - {name: S0H1, value: 2}
+                - {name: H0H1, value: 3}
+                - {name: D0S1, value: 4}
+                - {name: D0H1, value: 5}
+                - {name: S0D1, value: 6}
+                - {name: H0D1, value: 7}
+          - name: SENSE
+            shift: 16
+            length: 2
+            values:
+                - {name: DISABLED, value: 0}
+                - {name: HIGH, value: 1}
+                - {name: LOW, value: 2}
+
+blocks:
+    - name: GPIO_P0
+      base: 0x50000000
