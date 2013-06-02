@@ -113,10 +113,12 @@ def yaml2h(filenamebase, as_struct=False):
             if comment is not None:
                 outfile.write(" /**< %s */"%comment)
             nl()
-        def struct_field(access, length, key, comment=None):
+        def struct_field(access, length, num_elements, key, comment=None):
             outfile.write("__" + access + " ")
             outfile.write(length2type(length) + " ")
             outfile.write(key)
+            if num_elements != 1:
+                outfile.write("[%d]" % num_elements)
             outfile.write(";")
             if comment is not None:
                 outfile.write(" /**< %s */"%comment)
@@ -178,7 +180,8 @@ def yaml2h(filenamebase, as_struct=False):
             assert regdata["offset"] >= offset, regdata
             if as_struct and regdata["offset"] > offset:
                 struct_reserved(regdata["offset"] - offset)
-            offset = regdata["offset"] + regdata.get('length', 32) / 8
+            # Calculate offset of next field right away
+            offset = regdata["offset"] + regdata.get('length', 32) / 8 * regdata.get('array', 1)
 
             secondcomponent_name = regdata['name']
             if (has_bits and isinstance(regdata['fields'], str)) or (has_values and isinstance(regdata['values'], str)):
@@ -195,7 +198,10 @@ def yaml2h(filenamebase, as_struct=False):
                     print "Warning: register %s lacks 'length' property, assumed 32" % regdata['name']
                 if 'access' not in regdata:
                     print "Warning: register %s lacks 'access' property, assumed 'rw'" % regdata['name']
-                struct_field(regdata.get('access', 'rw'), regdata.get('length', 32), regdata['name'], comment)
+                struct_field(regdata.get('access', 'rw'),
+                             regdata.get('length', 32),
+                             regdata.get('array', 1),
+                             regdata['name'], comment)
             else:
                 define("%s_%s" % (data['shortname'], regdata['name']),
                        "MMIO32(%s_BASE + %#.003x)" % (data['shortname'], regdata['offset']),
