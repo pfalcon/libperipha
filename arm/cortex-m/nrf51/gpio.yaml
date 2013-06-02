@@ -28,6 +28,7 @@ registers:
       offset: 0x51c
     - name: PIN_CNF
       offset: 0x700
+      array: 32
       fields:
           - name: DIR
             shift: 0

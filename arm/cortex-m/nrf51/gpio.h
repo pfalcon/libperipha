@@ -70,7 +70,7 @@ __rw uint32_t DIR;
 __rw uint32_t DIRSET;
 __rw uint32_t DIRCLR;
 uint32_t RESERVED1[120];
-__rw uint32_t PIN_CNF; /**< @see NRF51_GPIO_PIN_CNF_bits */
+__rw uint32_t PIN_CNF[32]; /**< @see NRF51_GPIO_PIN_CNF_bits */
 } GPIO_Type;
 
 /** @} */
