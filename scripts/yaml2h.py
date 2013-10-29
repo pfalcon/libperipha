@@ -302,10 +302,27 @@ def yaml2h(filenamebase, as_struct=False):
         nl()
         outfile.write("#endif\n")
 
+
+def find_base_dir():
+    cur_path = "."
+    while True:
+        abs_path = os.path.abspath(cur_path)
+        if abs_path == "/":
+            return None
+        if os.path.exists(abs_path + "/licenses.yaml"):
+            return abs_path
+        cur_path = "../" + cur_path
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
-    base_dir = sys.argv[1]
-    licensedata = yaml.load(open(os.path.join(base_dir, "generate-license.yaml")))
+    base_dir = find_base_dir()
+    if not base_dir:
+        print "Cannot find licenses.yaml in current/parent dirs"
+        sys.exit(1)
+    licensedata = yaml.load(open(os.path.join(base_dir, "licenses.yaml")))
     for fname in glob.glob("*.yaml"):
         basename = os.path.splitext(fname)[0]
+        if basename == "licenses":
+            continue
         yaml2h(basename, True)
