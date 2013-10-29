@@ -92,7 +92,7 @@ def yaml2h(filenamebase, as_struct=False):
         data['registers'] += load_inherit(i)
     # some defaults
     data.setdefault("projectname", "libperipha")
-    data.setdefault("includeguard", "LIBPERIPHA_EFM32_TINYGECKO_%s_H"%data['shortname'])
+    data.setdefault("includeguard", "LIBPERIPHA_%s_H"%data['shortdocname'])
     data.setdefault("baseref", "?baseref?")
     data.setdefault("registers_baserefext", "?registers_baserefext?")
     data.setdefault("ingroup", "?ingroup?")
