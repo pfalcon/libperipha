@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #
 # YAML to C headers generator
 #
@@ -29,7 +30,6 @@
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-#!/usr/bin/env python
 
 import sys
 import os
@@ -321,8 +321,13 @@ if __name__ == "__main__":
         print "Cannot find licenses.yaml in current/parent dirs"
         sys.exit(1)
     licensedata = yaml.load(open(os.path.join(base_dir, "licenses.yaml")))
+    processed = False
     for fname in glob.glob("*.yaml"):
         basename = os.path.splitext(fname)[0]
         if basename == "licenses":
             continue
         yaml2h(basename, True)
+        processed = True
+
+    if not processed:
+        print "Run this script in a directory with .yaml register descriptions"
