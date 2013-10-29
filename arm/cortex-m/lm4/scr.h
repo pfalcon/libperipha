@@ -44,8 +44,8 @@
  * @{
  */
 
-#ifndef LIBPERIPHA_EFM32_TINYGECKO_SCR_H
-#define LIBPERIPHA_EFM32_TINYGECKO_SCR_H
+#ifndef LIBPERIPHA_LM4_SCR_H
+#define LIBPERIPHA_LM4_SCR_H
 
 /** Register definitions and register value definitions for the SCR subsystem
  *

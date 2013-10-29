@@ -44,8 +44,8 @@
  * @{
  */
 
-#ifndef LIBPERIPHA_EFM32_TINYGECKO_UART_H
-#define LIBPERIPHA_EFM32_TINYGECKO_UART_H
+#ifndef LIBPERIPHA_LM4_UART_H
+#define LIBPERIPHA_LM4_UART_H
 
 /** Register definitions and register value definitions for the UART subsystem
  *

@@ -44,8 +44,8 @@
  * @{
  */
 
-#ifndef LIBPERIPHA_EFM32_TINYGECKO_GPIO_H
-#define LIBPERIPHA_EFM32_TINYGECKO_GPIO_H
+#ifndef LIBPERIPHA_LM4_GPIO_H
+#define LIBPERIPHA_LM4_GPIO_H
 
 /** Register definitions and register value definitions for the GPIO subsystem
  *
