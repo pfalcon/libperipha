@@ -105,3 +105,10 @@ the same underlying definitions (register addresses as scalar), and from
 covered by simple codegeneration script. Going from method 3 to 4 is more
 complicated, but a tool to layout structures based on register offsets
 and sizes is just a bit more complicated than trivial.
+
+
+(Re)generating headers from YAML descriptions
+---------------------------------------------
+libperipha favors declaritive descriptions encoded in easy to understand YAML
+files. To generate headers from .yaml files, run scripts/yaml2h.py tool
+in a directory with such files.
