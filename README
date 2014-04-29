@@ -4,18 +4,18 @@ definitions to access internal registers of various hardware components.
 License
 -------
 libperipha consists of number of components, developed by project
-contrinutors, collected from existing projects, or imported from
+contributors, collected from existing projects, or imported from
 vendor releases. All components of libperipha are released under
 well-known liberal Open Source licenses (such as BSD or MIT), or
 are in public domain. Please consult each individual file for
-licensing/copyrigh terms applying to it. Following provides
+licensing/copyright terms applying to it. Following provides
 (possibly incomplete) information for major libperihpa components:
 
 1. Default libperipha license unless otherwise specified: 3-clause BSD.
-If you contibute materials of which you are copyright holder, please
+If you contribute materials of which you are copyright holder, please
 consider using this license to minimize complexity and confusion.
 
-2. scripts/ subdirectory: It's common practice is Open Source community
+2. scripts/ subdirectory: It's common practice in Open Source community
 to release development and support tools on stricter freedom and
 community protecting license, like GPL. However, to minimize confusion
 and to keep automatic licensing scanners happy, libperipha adopts to use
@@ -38,7 +38,7 @@ If you cloned without --recursive, run:
 
 Interface/API
 -------------
-There're few well-known ways to define hardware registers and access
+There're a few well-known ways to define hardware registers and access
 them:
 
 1. Define iomem addresses of registers, and provide functions/macros
@@ -90,7 +90,7 @@ BLOCK1->REG_DATA = 0xaa55;
 BLOCK2.REG_CTRL = CMD_RESET;
 
 
-It's hard to say that one method is "better" than other, each of them has
+It's hard to say that one method is "better" than another, each of them has
 its pros and cons. For example, for simple hardware, it makes no sense
 to mandate usage of extra parameters in accessor methods or define
 structures, methods 1 & 2 work pretty well. Methods 2 & 4 are more
@@ -99,7 +99,7 @@ types support from compiler).
 
 So, libperipha doesn't try to postulate any of these as primary, but
 embraces them all. It is however recommended to whenever possible support
-all of them. It's not that hard as it seems, methods 1 & 2 have basically
+all of them. It's not as hard as it seems, methods 1 & 2 have basically
 the same underlying definitions (register addresses as scalar), and from
 4 to 3 it is possible to go with offsetof macro. All these cases can be
 covered by simple codegeneration script. Going from method 3 to 4 is more
