@@ -37,6 +37,7 @@ import yaml
 import logging
 import textwrap
 import glob
+import argparse
 
 
 USE_LIBOPENCM3 = 0
@@ -302,6 +303,76 @@ def yaml2h(filenamebase, as_struct=False):
         nl()
         outfile.write("#endif\n")
 
+def c_comment_to_py(lines):
+    out = []
+    for line in lines.split('\n'):
+        if line[0:2] == '/*':
+            continue
+        elif line[0:3] == ' */':
+            continue
+        elif line[0:2] == ' *':
+            out.append('#' + line[2:])
+    return '\n'.join(out)
+
+def yaml2sstruct(filenamebase, as_struct=False):
+    global reserved_cnt
+    sstructname = "%s.py" % filenamebase
+    yamlname = "%s.yaml" % filenamebase
+
+    logging.info("Generating %s from %s", sstructname, yamlname)
+
+    data = yaml.load(open(yamlname))
+    add_defaults(data)
+    for i in data.get('inherit', []):
+        data['registers'] += load_inherit(i)
+    # some defaults
+    data.setdefault("projectname", "libperipha")
+    data.setdefault("includeguard", "LIBPERIPHA_%s_H"%data['shortdocname'])
+    data.setdefault("baseref", "?baseref?")
+    data.setdefault("registers_baserefext", "?registers_baserefext?")
+    data.setdefault("ingroup", "?ingroup?")
+
+    with open(sstructname, 'w') as outfile:
+        def nl(): outfile.write("\n")
+        outfile.write(c_comment_to_py(licensedata[data['license']].format(**data)))
+        nl()
+        nl()
+        outfile.write('import sstruct')
+        nl()
+        nl()
+        outfile.write('{shortname} = {{'.format(**data))
+        nl()
+        regs = data['registers']
+        regs.sort(lambda a, b: cmp(a["offset"], b["offset"]))
+        for regdata in regs:
+            has_bits = "fields" in regdata
+            is_template = "is_template" in regdata
+            if is_template:
+                # this isn't a real register, just a template
+                continue
+            if 'length' not in regdata:
+                print "Warning: register %s lacks 'length' property, assumed 32" % regdata['name']
+            outfile.write("    '{:s}': ".format(regdata['name']))
+            if has_bits:
+                outfile.write('(0x{:x}, {{'.format(regdata.get('offset')))
+                nl()
+                max_width = max(len(field['name']) for field in regdata['fields'])
+                for field in regdata['fields']:
+                    outfile.write("        '{:s}':{:s} sstruct.BFUINT{:d} | 0x{:02x} | {:2d} << 17 | {:2d} << 22,".format(field['name'],
+                                                                                                                      ' ' * (max_width - len(field['name'])),
+                                                                                                                 regdata.get('length', 32),
+                                                                                                                 regdata.get('offset'),
+                                                                                                                 field['shift'],
+                                                                                                                 field.get('length', 1)))
+                    nl()
+                outfile.write('    }),')
+            else:
+                outfile.write('sstruct.UINT{:d} | 0x{:02x},'.format(regdata.get('length', 32),
+                                                                regdata.get('offset')))
+            nl()
+        outfile.write('}')
+        nl()
+
 
 def find_base_dir():
     cur_path = "."
@@ -315,6 +386,19 @@ def find_base_dir():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        prog='yaml2h.py',
+        usage='%(prog)s [options]',
+        description='Generate header file from a register definition'
+    )
+    parser.add_argument(
+        '--sstruct',
+        dest='gen_sstruct',
+        action='store_true',
+        help='Generate python sstruct source rather than header files',
+    )
+    args = parser.parse_args(sys.argv[1:])
+
     logging.basicConfig(level=logging.DEBUG)
     base_dir = find_base_dir()
     if not base_dir:
@@ -326,7 +410,10 @@ if __name__ == "__main__":
         basename = os.path.splitext(fname)[0]
         if basename == "licenses":
             continue
-        yaml2h(basename, True)
+        if args.gen_sstruct:
+            yaml2sstruct(basename, True)
+        else:
+            yaml2h(basename, True)
         processed = True
 
     if not processed:

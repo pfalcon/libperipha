@@ -1,0 +1,240 @@
+copyright: "2014 dhylands <dhylands@gmail.com>"
+license: bsd-3clause
+ingroup: STM32F4
+shortdocname: STM32F4_TIM
+shortname: TIM
+longname: Timer
+baseref: DM00031020.pdf section 17
+registers_baserefext: ".4"
+
+register defaults:
+    length: 32
+    access: rw
+
+registers:
+    - name: CR1
+      offset: 0x00
+      comment: Control Register 1
+      definition_baserefext: ".4.1"
+      fields:
+          - {name: CKD,  shift: 8, length: 2}
+          - {name: ARPE, shift: 7}
+          - {name: CMS,  shift: 5, length: 2}
+          - {name: DIR,  shift: 4}
+          - {name: OPM,  shift: 3}
+          - {name: URS,  shift: 2}
+          - {name: UDIS, shift: 1}
+          - {name: CEN,  shift: 0}
+    - name: CR2
+      offset: 0x04
+      comment: Control Register 1
+      definition_baserefext: ".4.2"
+      fields:
+          - {name: OISN, shift: 9}
+          - {name: OIS,  shift: 8}
+          - {name: TI1S, shift: 7}
+          - {name: MMS,  shift: 4, length: 3}
+          - {name: CCDS, shift: 3}
+          - {name: CCUS, shift: 2}
+          - {name: CCPC, shift: 0}
+    - name: SMCR
+      offset: 0x08
+      comment: Slave Mode Control Register
+      definition_baserefext: ".4.3"
+      fields:
+          - {name: ETP,  shift: 15}
+          - {name: ECE,  shift: 14}
+          - {name: ETPS, shift: 12, length: 2}
+          - {name: ETF,  shift:  8, length: 4}
+          - {name: MSM,  shift:  7}
+          - {name: TS,   shift:  4, length: 3}
+          - {name: SMS,  shift:  0, length: 3}
+    - name: DIER
+      offset: 0x0c
+      comment: DMA/Interrupt Enable Register
+      definition_baserefext: ".4.4"
+      fields:
+          - {name: TDE,   shift: 14}
+          - {name: COMDE, shift: 13}
+          - {name: CCDE,  shift:  9}
+          - {name: UDE,   shift:  8}
+          - {name: BIE,   shift:  7}
+          - {name: TIE,   shift:  6}
+          - {name: COMIE, shift:  5}
+          - {name: CCIE,  shift:  1}
+          - {name: UIE,   shift:  0}
+    - name: SR
+      offset: 0x10
+      comment: Status Register
+      definition_baserefext: ".4.5"
+      fields:
+          - {name: CCOF,  shift:  9}
+          - {name: BIF,   shift:  7}
+          - {name: TIF,   shift:  6}
+          - {name: COMIF, shift:  5}
+          - {name: CCIF,  shift:  1}
+          - {name: UIF,   shift:  0}
+    - name: EGR
+      offset: 0x14
+      comment: Event Generation Register
+      definition_baserefext: ".4.6"
+      fields:
+          - {name: BG,   shift:  7}
+          - {name: TG,   shift:  6}
+          - {name: COMG, shift:  5}
+          - {name: CCG,  shift:  1}
+          - {name: UG,   shift:  0}
+    - name: CCMR1
+      offset: 0x18
+      comment: Capture/Compare Mode Register 1
+      definition_baserefext: ".4.7"
+      fields:
+          - {name: OC2CE,  shift: 15}
+          - {name: OC2M,   shift: 12, length: 3}
+          - {name: OC2PE,  shift: 11}
+          - {name: OC2FE,  shift: 10}
+          - {name: IC2F,   shift: 12, length: 4}
+          - {name: IC2PSC, shift: 10, length: 2}
+          - {name: CC2S,   shift:  8, length: 2}
+          - {name: OC1CE,  shift:  7}
+          - {name: OC1M,   shift:  4, length: 3}
+          - {name: OC1PE,  shift:  3}
+          - {name: OC1FE,  shift:  2}
+          - {name: IC1F,   shift:  4, length: 4}
+          - {name: IC1PSC, shift:  2, length: 2}
+          - {name: CC1S,   shift:  0, length: 2}
+    - name: CCMR2
+      offset: 0x1C
+      comment: Capture/Compare Mode Register 2
+      definition_baserefext: ".4.8"
+      fields:
+          - {name: OC2CE,  shift: 15}
+          - {name: OC2M,   shift: 12, length: 3}
+          - {name: OC2PE,  shift: 11}
+          - {name: OC2FE,  shift: 10}
+          - {name: IC2F,   shift: 12, length: 4}
+          - {name: IC2PSC, shift: 10, length: 2}
+          - {name: CC2S,   shift:  8, length: 2}
+          - {name: OC1CE,  shift:  7}
+          - {name: OC1M,   shift:  4, length: 3}
+          - {name: OC1PE,  shift:  3}
+          - {name: OC1FE,  shift:  2}
+          - {name: IC1F,   shift:  4, length: 4}
+          - {name: IC1PSC, shift:  2, length: 2}
+          - {name: CC1S,   shift:  0, length: 2}
+    - name: CCER
+      offset: 0x20
+      comment: Capture/Compare Enable Register
+      definition_baserefext: ".4.9"
+      fields:
+          - {name: CC4NP,  shift: 15}
+          - {name: CC4NE,  shift: 14}
+          - {name: CC4P,   shift: 13}
+          - {name: CC4E,   shift: 12}
+          - {name: CC3NP,  shift: 11}
+          - {name: CC3NE,  shift: 10}
+          - {name: CC3P,   shift:  9}
+          - {name: CC3E,   shift:  8}
+          - {name: CC2NP,  shift:  7}
+          - {name: CC2NE,  shift:  6}
+          - {name: CC2P,   shift:  5}
+          - {name: CC2E,   shift:  4}
+          - {name: CC1NP,  shift:  3}
+          - {name: CC1NE,  shift:  2}
+          - {name: CC1P,   shift:  1}
+          - {name: CC1E,   shift:  0}
+    - name: CNT
+      offset: 0x24
+      comment: Count
+      definition_baserefext: ".4.10"
+    - name: PSC
+      offset: 0x28
+      comment: Prescalar
+      definition_baserefext: ".4.11"
+    - name: ARR
+      offset: 0x2C
+      comment: Auto-Reload Register
+      definition_baserefext: ".4.12"
+    - name: RCR
+      offset: 0x30
+      comment: Repitition Count Register
+      definition_baserefext: ".4.13"
+      fields:
+          - {name: REP, shift: 0, length: 8}
+    - name: CCR1
+      offset: 0x34
+      comment: Capture/Compare Register 1
+      definition_baserefext: ".4.14"
+    - name: CCR2
+      offset: 0x38
+      comment: Capture/Compare Register 2
+      definition_baserefext: ".4.15"
+    - name: CCR3
+      offset: 0x3C
+      comment: Capture/Compare Register 3
+      definition_baserefext: ".4.16"
+    - name: CCR4
+      offset: 0x40
+      comment: Capture/Compare Register 4
+      definition_baserefext: ".4.17"
+    - name: BDTR
+      offset: 0x44
+      comment: Break and Dead-Time Register
+      definition_baserefext: ".4.18"
+      fields:
+          - {name: MOE,   shift: 15}
+          - {name: AOE,   shift: 14}
+          - {name: BKP,   shift: 13}
+          - {name: BKE,   shift: 12}
+          - {name: OSSR,  shift: 11}
+          - {name: OSSI,  shift: 10}
+          - {name: LOCK,  shift:  8, length: 2}
+          - {name: DTG,   shift:  0, length: 8}
+    - name: DCR
+      offset: 0x48
+      comment: DMA Control Register 1
+      definition_baserefext: ".4.19"
+      fields:
+          - {name: DBL,   shift: 8, length: 5}
+          - {name: DBA,   shift: 0, length: 5}
+    - name: DMAR
+      offset: 0x4C
+      comment: DMA Address for full transfer Register
+      definition_baserefext: ".4.20"
+    - name: OR
+      offset: 0x50
+      comment: Option Register
+      fields:
+          - {name: ITR1_RMP, shift: 10, length: 2}
+          - {name: TI4_RMP,  shift:  6, length: 2}
+          - {name: TI1_RMP,  shift:  0, length: 2}
+
+blocks:
+    - name:  TIM1
+      base: 0x40010000
+    - name:  TIM2
+      base: 0x40000000
+    - name:  TIM3
+      base: 0x40000400
+    - name:  TIM4
+      base: 0x40000800
+    - name:  TIM5
+      base: 0x40000C00
+    - name:  TIM6
+      base: 0x40000000
+    - name:  TIM7
+      base: 0x40000400
+    - name:  TIM8
+      base: 0x40010400
+    - name:  TIM9
+      base: 0x40014000
+    - name:  TIM10
+      base: 0x40014400
+    - name:  TIM11
+      base: 0x40014800
+    - name:  TIM12
+      base: 0x40000800
+    - name:  TIM13
+      base: 0x40000C00
+    - name:  TIM14
+      base: 0x40000000
