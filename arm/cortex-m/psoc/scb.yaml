@@ -1,0 +1,90 @@
+copyright: "2014 Paul Sokolovsky"
+license: bsd-3clause
+ingroup: PSOC4
+shortdocname: PSOC4_SCB
+shortname: SCB
+longname: PSOC4 SCB Component
+baseref: PSoC_4100_4200_Family_TRM_001-85847.pdf section 16
+registers_baserefext: ".1"
+
+register defaults:
+    length: 32
+    access: rw
+
+registers:
+    - name: CTRL
+      offset: 0x000
+      fields:
+          - name: ENABLED
+            shift: 31
+          - name: MODE
+            shift: 24
+            length: 2
+          - name: OVS
+            shift: 0
+            length: 4
+    - name: STATUS
+      offset: 0x004
+
+    - name: SPI_CTRL
+      offset: 0x020
+    - name: SPI_STATUS
+      offset: 0x024
+
+    - name: UART_CTRL
+      offset: 0x040
+      fields:
+          - name: MODE
+            shift: 24
+            length: 2
+            values:
+                - {name: STD, value: 0}
+                - {name: SMARTCARD, value: 1}
+                - {name: IRDA, value: 2}
+          - name: LOOPBACK
+            shift: 16
+    - name: UART_TX_CTRL
+      offset: 0x044
+      fields:
+          - name: STOP_BITS
+            shift: 0
+            length: 3
+    - name: UART_RX_CTRL
+      offset: 0x048
+    - name: UART_RX_STATUS
+      offset: 0x04c
+
+    - name: I2C_CTRL
+      offset: 0x060
+    - name: I2C_STATUS
+      offset: 0x064
+    - name: I2C_M_CMD
+      offset: 0x068
+    - name: I2C_S_CMD
+      offset: 0x06c
+    - name: I2C_CFG
+      offset: 0x070
+
+    - name: TX_CTRL
+      offset: 0x200
+    - name: TX_FIFO_CTRL
+      offset: 0x204
+    - name: TX_FIFO_STATUS
+      offset: 0x208
+    - name: TX_FIFO_WR
+      offset: 0x240
+
+    - name: RX_CTRL
+      offset: 0x300
+    - name: RX_FIFO_CTRL
+      offset: 0x304
+    - name: RX_FIFO_STATUS
+      offset: 0x308
+    - name: RX_MATCH
+      offset: 0x310
+    - name: RX_FIFO_RD
+      offset: 0x340
+
+blocks:
+    - name: SCB
+      base: 0x40060000
