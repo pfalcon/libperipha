@@ -67,8 +67,24 @@ registers:
 
     - name: TX_CTRL
       offset: 0x200
+      fields:
+          - name: ENABLED
+            shift: 31
+          - name: MSB_FIRST
+            shift: 8
+          - name: DATA_WIDTH
+            shift: 0
+            length: 4
     - name: TX_FIFO_CTRL
       offset: 0x204
+      fields:
+          - name: FREEZE
+            shift: 17
+          - name: CLEAR
+            shift: 16
+          - name: TRIGGER_LEVEL
+            shift: 0
+            length: 3
     - name: TX_FIFO_STATUS
       offset: 0x208
     - name: TX_FIFO_WR
@@ -76,6 +92,16 @@ registers:
 
     - name: RX_CTRL
       offset: 0x300
+      fields:
+          - name: ENABLED
+            shift: 31
+          - name: MEDIAN
+            shift: 9
+          - name: MSB_FIRST
+            shift: 8
+          - name: DATA_WIDTH
+            shift: 0
+            length: 4
     - name: RX_FIFO_CTRL
       offset: 0x304
     - name: RX_FIFO_STATUS
