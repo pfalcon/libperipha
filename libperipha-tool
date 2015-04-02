@@ -78,16 +78,10 @@ def load_inherit(fname):
     return regs
 
 
-reserved_cnt = 0
-def yaml2h(filenamebase, as_struct=False):
-    global reserved_cnt
-    headername = "%s.h"%filenamebase
-    yamlname = "%s.yaml"%filenamebase
-    conveniencename = "%s.convenienceheaders"%filenamebase
 
-    logging.info("Generating %s from %s", headername, yamlname)
-
-    data = yaml.load(open(yamlname))
+def load_yaml(fname):
+    "Load yaml file and do basic structural processing."
+    data = yaml.load(open(fname))
     add_defaults(data)
     for i in data.get('inherit', []):
         data['registers'] += load_inherit(i)
@@ -97,6 +91,19 @@ def yaml2h(filenamebase, as_struct=False):
     data.setdefault("baseref", "?baseref?")
     data.setdefault("registers_baserefext", "?registers_baserefext?")
     data.setdefault("ingroup", "?ingroup?")
+    return data
+
+
+reserved_cnt = 0
+def yaml2h(filenamebase, as_struct=False):
+    global reserved_cnt
+    headername = "%s.h"%filenamebase
+    yamlname = "%s.yaml"%filenamebase
+    conveniencename = "%s.convenienceheaders"%filenamebase
+
+    logging.info("Generating %s from %s", headername, yamlname)
+
+    data = load_yaml(yamlname)
 
     with open(headername, 'w') as outfile:
         def wc(*args, **kwargs): # wrap "outfile" and "data" (as default) arguments  -- i'm a lazy typer
@@ -321,16 +328,7 @@ def yaml2uctypes(filenamebase, as_struct=False):
 
     logging.info("Generating %s from %s", uctypesname, yamlname)
 
-    data = yaml.load(open(yamlname))
-    add_defaults(data)
-    for i in data.get('inherit', []):
-        data['registers'] += load_inherit(i)
-    # some defaults
-    data.setdefault("projectname", "libperipha")
-    data.setdefault("includeguard", "LIBPERIPHA_%s_H"%data['shortdocname'])
-    data.setdefault("baseref", "?baseref?")
-    data.setdefault("registers_baserefext", "?registers_baserefext?")
-    data.setdefault("ingroup", "?ingroup?")
+    data = load_yaml(yamlname)
 
     with open(uctypesname, 'w') as outfile:
         def nl(): outfile.write("\n")
