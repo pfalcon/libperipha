@@ -314,12 +314,12 @@ def c_comment_to_py(lines):
             out.append('#' + line[2:])
     return '\n'.join(out)
 
-def yaml2sstruct(filenamebase, as_struct=False):
+def yaml2uctypes(filenamebase, as_struct=False):
     global reserved_cnt
-    sstructname = "%s.py" % filenamebase
+    uctypesname = "%s.py" % filenamebase
     yamlname = "%s.yaml" % filenamebase
 
-    logging.info("Generating %s from %s", sstructname, yamlname)
+    logging.info("Generating %s from %s", uctypesname, yamlname)
 
     data = yaml.load(open(yamlname))
     add_defaults(data)
@@ -332,12 +332,12 @@ def yaml2sstruct(filenamebase, as_struct=False):
     data.setdefault("registers_baserefext", "?registers_baserefext?")
     data.setdefault("ingroup", "?ingroup?")
 
-    with open(sstructname, 'w') as outfile:
+    with open(uctypesname, 'w') as outfile:
         def nl(): outfile.write("\n")
         outfile.write(c_comment_to_py(licensedata[data['license']].format(**data)))
         nl()
         nl()
-        outfile.write('import sstruct')
+        outfile.write('import uctypes')
         nl()
         nl()
         outfile.write('{shortname} = {{'.format(**data))
@@ -358,7 +358,7 @@ def yaml2sstruct(filenamebase, as_struct=False):
                 nl()
                 max_width = max(len(field['name']) for field in regdata['fields'])
                 for field in regdata['fields']:
-                    outfile.write("        '{:s}':{:s} sstruct.BFUINT{:d} | 0x{:02x} | {:2d} << 17 | {:2d} << 22,".format(field['name'],
+                    outfile.write("        '{:s}':{:s} uctypes.BFUINT{:d} | 0x{:02x} | {:2d} << 17 | {:2d} << 22,".format(field['name'],
                                                                                                                       ' ' * (max_width - len(field['name'])),
                                                                                                                  regdata.get('length', 32),
                                                                                                                  regdata.get('offset'),
@@ -367,7 +367,7 @@ def yaml2sstruct(filenamebase, as_struct=False):
                     nl()
                 outfile.write('    }),')
             else:
-                outfile.write('sstruct.UINT{:d} | 0x{:02x},'.format(regdata.get('length', 32),
+                outfile.write('uctypes.UINT{:d} | 0x{:02x},'.format(regdata.get('length', 32),
                                                                 regdata.get('offset')))
             nl()
         outfile.write('}')
@@ -392,10 +392,10 @@ if __name__ == "__main__":
         description='Generate header file from a register definition'
     )
     parser.add_argument(
-        '--sstruct',
-        dest='gen_sstruct',
+        '--uctypes',
+        dest='gen_uctypes',
         action='store_true',
-        help='Generate python sstruct source rather than header files',
+        help='Generate python uctypes source rather than header files',
     )
     args = parser.parse_args(sys.argv[1:])
 
@@ -410,8 +410,8 @@ if __name__ == "__main__":
         basename = os.path.splitext(fname)[0]
         if basename == "licenses":
             continue
-        if args.gen_sstruct:
-            yaml2sstruct(basename, True)
+        if args.gen_uctypes:
+            yaml2uctypes(basename, True)
         else:
             yaml2h(basename, True)
         processed = True
