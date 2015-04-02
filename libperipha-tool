@@ -395,7 +395,7 @@ if __name__ == "__main__":
         '--uctypes',
         dest='gen_uctypes',
         action='store_true',
-        help='Generate python uctypes source rather than header files',
+        help='Generate MicroPython uctypes source rather than header files',
     )
     args = parser.parse_args(sys.argv[1:])
 
