@@ -105,6 +105,15 @@ def yaml2h(filenamebase, as_struct=False):
 
     data = load_yaml(yamlname)
 
+    if not as_struct:
+        blocks = data.get('blocks', [])
+        if len(blocks) > 1:
+            print "Error: flat definition format not supported when there are more than 1 instance of component"
+            sys.exit(1)
+        if len(blocks) == 1 and blocks[0]["name"] != data["shortname"]:
+            print "Error: flat definition format requires instance of component to have the same name as component"
+            sys.exit(1)
+
     with open(headername, 'w') as outfile:
         def wc(*args, **kwargs): # wrap "outfile" and "data" (as default) arguments  -- i'm a lazy typer
             final_kwargs = data.copy()
