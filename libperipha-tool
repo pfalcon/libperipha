@@ -294,7 +294,8 @@ def yaml2h(filenamebase, as_struct=False):
                             mask = field['mask']
                         else:
                             mask = "(%#x<<%s)"%(~(~0<<field.get('length', 1)), field['shift'])
-                        define("%s_%s_%s_MASK"%(data['shortname'], regdata['name'], field['name']), mask)
+                        define("%s_%s_%s_mask"%(data['shortname'], regdata['name'], field['name']), mask)
+                        define("%s_%s_%s_shift"%(data['shortname'], regdata['name'], field['name']), field['shift'])
             else:
                 for value in regdata['values']:
                     define("%s_%s_%s"%(data['shortname'], regdata['name'], value['name']), value['value'], value.get('doc', None))
