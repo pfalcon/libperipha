@@ -41,3 +41,5 @@
    before_off and field with offset after_off */
 #define RESERVED(no, type, before_off, after_off) \
     type reserved##no ((after_off - before_off) / sizeof(type) - 1)
+
+#define FIELD(val, fldname) (((val) & fldname##_mask) >> fldname##_shift)
