@@ -1,0 +1,107 @@
+copyright: "2015 Paul Sokolovsky"
+license: bsd-2clause
+ingroup: MT6260
+shortdocname: MT6260_CLKGATE
+shortname: CLKGATE
+longname: MT6260 CLKGATE Component
+baseref: fernly/fernvale-clockgate.h
+
+register defaults:
+    length: 32
+    access: rw
+
+registers:
+    - name: SYS_CTL0
+      offset: 0x300
+      access: ro
+      fields:
+          - name: LCD
+            shift: 0
+          - name: RESIZER
+            shift: 1
+          - name: ROTDMA
+            shift: 2
+    - name: SYS_CTL1
+      offset: 0x304
+      access: ro
+      fields:
+          - name: SEJ
+            shift: 0
+          - name: DMA
+            shift: 1
+          - name: USB
+            shift: 2
+          - name: MSDC
+            shift: 3
+          - name: SIM
+            shift: 4
+          - name: SIM2
+            shift: 5
+          - name: I2C
+            shift: 6
+          - name: SPI
+            shift: 7
+          - name: OSTIMER
+            shift: 8
+          - name: HIF1
+            shift: 9
+          - name: UART1
+            shift: 13
+          - name: UART2
+            shift: 14
+    - name: SYS_CTL2
+      access: ro
+      offset: 0x308
+      fields:
+          - name: PWM
+            shift: 0
+          - name: BTIF
+            shift: 1
+          - name: GPT
+            shift: 2
+          - name: AUXDAC
+            shift: 3
+          - name: LZMA
+            shift: 4
+          - name: ROM
+            shift: 5
+          - name: EFUSE
+            shift: 6
+          - name: SW_LPM
+            shift: 7
+          - name: NFI
+            shift: 9
+          - name: MSDC2
+            shift: 10
+          - name: SFC
+            shift: 11
+          - name: SPI_NAND
+            shift: 12
+          - name: FM_F26M
+            shift: 13
+          - name: FM_BCLK
+            shift: 14
+
+    - name: SYS_CTL0_SET
+      offset: 0x310
+      access: wo
+    - name: SYS_CTL1_SET
+      offset: 0x314
+      access: wo
+    - name: SYS_CTL2_SET
+      offset: 0x318
+      access: wo
+
+    - name: SYS_CTL0_CLR
+      offset: 0x320
+      access: wo
+    - name: SYS_CTL1_CLR
+      offset: 0x324
+      access: wo
+    - name: SYS_CTL2_CLR
+      offset: 0x328
+      access: wo
+
+blocks:
+    - name: CLKGATE
+      base: 0xA0010000
