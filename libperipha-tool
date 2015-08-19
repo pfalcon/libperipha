@@ -78,6 +78,9 @@ def load_inherit(fname):
     return regs
 
 
+def field_name(data, regdata, field):
+    return "%s_%s_%s" % (data['shortname'], regdata['name'], field['name'])
+
 
 def load_yaml(fname):
     "Load yaml file and do basic structural processing."
@@ -383,6 +386,42 @@ def yaml2uctypes(filenamebase, as_struct=False):
         nl()
 
 
+def yaml2cdump(filenamebase):
+    global reserved_cnt
+    yamlname = "%s.yaml" % filenamebase
+    outname = "%s.c" % filenamebase
+
+    logging.info("Generating %s from %s", outname, yamlname)
+
+    data = load_yaml(yamlname)
+
+    with open(outname, 'w') as out:
+        out.write("void dump_%(shortname)s(%(shortname)s_Type *block) {\n" % data)
+
+        regs = data['registers']
+        regs.sort(lambda a, b: cmp(a["offset"], b["offset"]))
+        for regdata in regs:
+            if "is_template" in regdata:
+                # this isn't a real register, just a template
+                continue
+            if regdata["access"][0] == "w":
+                out.write("/* %(name)s is write-only */\n" % regdata)
+                continue
+            out.write('printf("%(name)s=%%x", block->%(name)s);\n' % regdata)
+            if "fields" in regdata:
+                for f in regdata["fields"]:
+                    if f.get("length", 1) == 1:
+                        out.write('printf("%s.%s=%%x", (block->%s & %s) >> %s);\n' % (
+                            regdata["name"], f["name"], regdata["name"],
+                            field_name(data, regdata, f), f["shift"]))
+                    else:
+                        out.write('printf("%s.%s=%%x", FIELD(block->%s, %s));\n' % (
+                            regdata["name"], f["name"], regdata["name"],
+                            field_name(data, regdata, f)))
+            out.write("\n")
+        out.write("}\n")
+
+
 def find_base_dir():
     cur_path = "."
     while True:
@@ -406,6 +445,12 @@ if __name__ == "__main__":
         action='store_true',
         help='Generate MicroPython uctypes source rather than header files',
     )
+    parser.add_argument(
+        '--cdump',
+        dest='gen_cdump',
+        action='store_true',
+        help='Generate C source to dump registers in human-readable form',
+    )
     args = parser.parse_args(sys.argv[1:])
 
     logging.basicConfig(level=logging.DEBUG)
@@ -421,6 +466,8 @@ if __name__ == "__main__":
             continue
         if args.gen_uctypes:
             yaml2uctypes(basename, True)
+        if args.gen_cdump:
+            yaml2cdump(basename)
         else:
             yaml2h(basename, True)
         processed = True
